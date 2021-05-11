@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script data-require="angular.js@*" data-semver="1.3.0-beta.5" src="https://code.angularjs.org/1.3.0-beta.5/angular.js"></script>
+    <script data-require="less.js@*" data-semver="1.3.3" src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.3.3/less.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+  </head>
+
+  <body ng-app="MyApp">
+    <div ng-controller="EditorCtrl">
+      <h3>1. D&eacute;finir la taille de la grille :</h3>
+      <p style="font-size:10px;color: #555;"><em>Pour le moment, les formats acceptés sur bonsmots.fr sont 
+        <strong>7x5</strong> et <strong>7x9</strong>.
+      </em>
+      </p>
+      Lignes <input type="number" ng-model="rows" style="width: 50px;">
+      Colonnes <input type="number" ng-model="cols" style="width: 50px;">
+      <h3>2. Remplir les solutions de la grille :</h3>
+      <p style="font-size:10px;color: #555;"><em>Sélectionner une case en cliquant avec la souris. Déplacer la sélection avec les flèches du clavier.
+        Mettre une case noire (à définitions) avec la barre espace. Taper la lettre désirée.
+        Retirer la lettre avec les touches retour arrière ou supprimer. Au fur et à mesure que vous tapez,
+        les mots sont affichés dans la partie 3. Remplissez toute la grille avant de rentrer les définitions.</em>
+      </p>
+      <input type="checkbox" ng-model="showIndex" ng-init="showIndex = true">Montrer les index
+      <div class="grid" tabindex="1" ng-keydown="onGridKeyDown($event)"
+        style="width: {{40*cols}}px; height: {{40*rows}}px">
+        <div class="square"
+          ng-repeat="sq in squares track by sq.idx"
+          ng-class="{
+          'wrap' : sq.idx % cols == 0,
+          'black' : sq.type === 'definition',
+          'selected' : sq.idx == selectedIndex
+          }"
+          ng-click="setSelectedIndex(sq.idx)">
+          <span class="idx" ng-if="showIndex">{{sq.idx}}</span>
+          {{sq.type === 'definition' ? '' : sq.letter}}
+        </div>
+      </div>
+      <h3>3. Donner les définitions des mots de la grille :</h3>
+      <p style="font-size:10px;color: #555;"><em>Une fois toute la grille remplie, vérifier que vos mots sont bien dans le dictionnaire
+      et donner une définition à chacun dans le champ de saisie "Définition".
+      </em>
+      </p>
+      <div class="hor-def">
+        <h5>Horizontal</h5>
+        <div ng-repeat="def in horizontalDefinitions | orderBy:'startIdx'">
+        <strong>Mot:</strong>{{def.solution}}
+        <strong>D&eacute;finition:</strong>
+        <input type="text" ng-model="def.text" style="width: 150px;">
+        </div>
+      </div>
+      <div class="hor-def">
+        <h5>Vertical</h5>
+        <div ng-repeat="def in verticalDefinitions | orderBy:'startIdx'">
+        <strong>Mot:</strong>{{def.solution}}
+        <strong>D&eacute;finition:</strong>
+        <input type="text" ng-model="def.text" style="width: 150px;">
+        </div>
+      </div>
+      <h3>4. Exporter la grille :</h3>
+      <p style="font-size:10px;color: #555;"><em>Cliquer sur le bouton pour exporter votre grille finalisée.
+      </em>
+      </p>
+      <div>
+        <button type="button" ng-click="export()">Exporter...</button>
+        <textarea ng-model="gridXML" style="width: 100%; height: 200px;"></textarea>
+      </div>
+    </div>
+  </body>
+
+</html>

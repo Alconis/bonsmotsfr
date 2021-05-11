@@ -1,0 +1,411 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>Mots Fl&eacute;ch&eacute;s Gratuits en ligne</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.js"></script>
+<script type="text/javascript" src="jquery.base64.js"></script>	
+<script type="text/javascript">
+
+/***************************************
+ * Constants
+ ***************************************/
+var NCOLS	= 10;
+var NROWS	= 14;
+
+/***************************************
+ * Global Variables
+ ***************************************/
+var ctx;
+var grid;
+var definitionsMap = {};
+var lettersMap = {}; 
+var squareObj = {w : 0, h : 0};
+var cursorObj = {x : 0, y : 0};
+
+/***************************************
+ * Mouse functions
+ ***************************************/
+function onMouseClick(event){
+	
+	// Retrieve clicked global position normalized via jquery pageX a pageY
+	var mouseX = event.pageX;
+	var mouseY = event.pageY;
+	
+	// If we are in the grid, we determine the clicked square coordinates.
+	if(	(mouseX > grid.offsetLeft && mouseX < grid.offsetLeft + grid.width)
+	&&	(mouseY > grid.offsetTop && mouseY < grid.offsetTop + grid.height)	){
+		
+		var localX = mouseX - grid.offsetLeft;
+		var localY = mouseY - grid.offsetTop;
+		var x = Math.floor(localX / squareObj.w);
+		var y = Math.floor(localY / squareObj.h);
+		
+		// Update the cursor coordinates and redraw.
+		cursorObj.x = x;
+		cursorObj.y = y;
+		draw();
+	}
+}
+
+function initMouseEvents() {
+	// Jquery does not work with canvas
+	//grid.click(onMouseClick);
+	grid.addEventListener('click', onMouseClick, false);
+}
+
+/***************************************
+ * Keyboard functions
+ ***************************************/
+var LEFT_KEY 		= 37;
+var UP_KEY 		= 38;
+var RIGHT_KEY 		= 39;
+var DOWN_KEY 		= 40;
+var DEL_KEY		= 46;
+var BACKSPACE_KEY	= 8;
+var chars		= "abcdefghijklmnopqrstuvwxyz";
+
+function onKeyPressed(event){
+	// Used jquery normalized field which
+	switch(event.which){
+		case UP_KEY : {
+			if(cursorObj.y > 0) cursorObj.y--;
+			break;
+		}
+		case RIGHT_KEY : {
+			if(cursorObj.x < NCOLS-1) cursorObj.x++;
+			break;
+		}
+		case DOWN_KEY : {
+			if(cursorObj.y < NROWS-1) cursorObj.y++;
+			break;
+		}
+		case LEFT_KEY : {
+			if(cursorObj.x > 0) cursorObj.x--;
+			break;
+		}
+		default:{
+			if(event.which >= 65 && event.which <= 90){
+				var char = chars[event.which - 65].toUpperCase();
+				lettersMap[cursorObj.y * NCOLS + cursorObj.x] = char;
+			}else if(event.which == DEL_KEY || event.which == BACKSPACE_KEY){
+				delete lettersMap[cursorObj.y * NCOLS + cursorObj.x];
+			}
+			break;
+		}
+	}
+	
+	draw();
+}
+
+function initKeyboardEvents() {
+	// Jquery does not work with canvas
+	//grid.keydown(onKeyPressed);
+	$(document).keydown(onKeyPressed);
+}
+
+/***************************************
+ * Drawing functions
+ ***************************************/
+function drawDefinitionsAt(defs, x, y){
+	var nbDefs = defs.length;
+
+	ctx.save();
+	ctx.fillStyle = "rgba(0,0,0,1)";
+	ctx.strokeStyle = "rgba(80,80,80,1)";
+	ctx.lineWidth = 2;
+	ctx.lineJoin = "round";
+	ctx.textAlign = 'center';
+
+	for(var i = 0; i < nbDefs; i++){
+		var word = defs[i];
+
+		// Draw the text of the definition
+		var wordX = x * squareObj.w + squareObj.w / 2;
+		var wordY = y * squareObj.h + (squareObj.h / (nbDefs+1)) * (i+1);
+		var lineHeight = 15;
+		var maxLineWidth = squareObj.w - 4;
+
+		printAtWordWrap(word.definition, wordX, wordY, lineHeight, maxLineWidth);
+
+		// Draw the definitions separators under the word
+		// except for the last one
+		if(i < nbDefs - 1){
+			ctx.fillRect(x * squareObj.w,
+				y * squareObj.h + (squareObj.h / (nbDefs)) * (i+1),
+				squareObj.w,
+				1);
+		}
+
+		// Draw the proper arrow for the word's orientation
+		var orientation = word.orientation;
+		var arrowX = x * squareObj.w;
+		var arrowY = y * squareObj.h;
+
+		ctx.beginPath();
+		switch(orientation){
+			case "vertical-right" : {
+				arrowX += squareObj.w;
+				arrowY += nbDefs == 1 ? squareObj.h / 2 : squareObj.h / 4;
+
+				ctx.moveTo(arrowX, arrowY);
+				ctx.lineTo(arrowX + squareObj.w / 4, arrowY);
+				ctx.lineTo(arrowX + squareObj.w / 4, arrowY + squareObj.h / 4);
+				ctx.moveTo(arrowX + squareObj.w / 8, arrowY + squareObj.h / 8);
+				ctx.lineTo(arrowX + squareObj.w / 4, arrowY + squareObj.h / 4);
+				ctx.lineTo(arrowX + squareObj.w / 4 + squareObj.w / 8, arrowY + squareObj.h / 8);
+
+				break;
+			}
+			case "horizontal-under" : {
+				arrowX += squareObj.w / 2;
+				arrowY += squareObj.h;
+
+				ctx.moveTo(arrowX, arrowY);
+				ctx.lineTo(arrowX, arrowY + squareObj.h / 4);
+				ctx.lineTo(arrowX + squareObj.w / 4, arrowY + squareObj.h / 4);
+				ctx.moveTo(arrowX + squareObj.w / 4 - squareObj.w / 8, arrowY + squareObj.h / 4 - squareObj.h / 8);
+				ctx.lineTo(arrowX + squareObj.w / 4, arrowY + squareObj.h / 4);
+				ctx.lineTo(arrowX + squareObj.w / 4 - squareObj.w / 8, arrowY + squareObj.h / 4 + squareObj.h / 8);
+
+				break;
+			}
+			case "vertical" : {
+				arrowX += squareObj.w / 2;
+				arrowY += squareObj.h;
+
+				ctx.moveTo(arrowX, arrowY);
+				ctx.lineTo(arrowX, arrowY + squareObj.h / 4);
+				ctx.moveTo(arrowX - squareObj.w / 8, arrowY + squareObj.h / 8);
+				ctx.lineTo(arrowX, arrowY + squareObj.h / 4);
+				ctx.lineTo(arrowX + squareObj.w / 8, arrowY + squareObj.h / 8);
+
+				break;
+			}
+			case "horizontal" : {
+				arrowX += squareObj.w;
+				arrowY += nbDefs == 1 ? squareObj.h / 2 : squareObj.h / 4;
+
+				ctx.moveTo(arrowX, arrowY);
+				ctx.lineTo(arrowX + squareObj.h / 4, arrowY);
+				ctx.moveTo(arrowX + squareObj.w / 8, arrowY - squareObj.h / 8);
+				ctx.lineTo(arrowX + squareObj.h / 4, arrowY);
+				ctx.lineTo(arrowX + squareObj.w / 8, arrowY + squareObj.h / 8);
+
+				break;
+			}
+			default: break;
+		}
+		ctx.stroke();
+	}
+
+	ctx.restore();
+}
+
+function drawLetterAt(letter, x, y){
+	ctx.save();
+	
+	ctx.font = "22px Arial";
+	ctx.fillStyle = "rgba(0,0,255,1)";
+	ctx.textAlign = 'center';
+	ctx.textBaseline = 'middle';
+	ctx.fillText(letter,
+		x * squareObj.w + squareObj.w / 2,
+		y * squareObj.h + squareObj.h / 2,
+		squareObj.w);
+	ctx.restore();
+}
+
+function drawCursor() {
+	var x = cursorObj.x * squareObj.w + 1;
+	var y = cursorObj.y * squareObj.h + 1;
+	var w = squareObj.w - 2;
+	var h = squareObj.h - 2;
+	
+	ctx.save();
+	ctx.strokeStyle = "rgba(0,0,255,1)";
+	ctx.strokeRect(x,y,w,h);
+	ctx.restore();
+}
+
+function drawSquare(x, y){
+	ctx.save();
+
+	var idx = y * NCOLS + x;
+	var definitions = definitionsMap[idx];
+	var letter = lettersMap[idx];
+
+	// 1. Draw background color and borders
+	if(undefined != definitions){
+		ctx.fillStyle = "rgba(248,250,187,1)";
+	}else{
+		ctx.fillStyle = "rgba(255,255,255,1)";
+	}
+	ctx.fillRect(x * squareObj.w, y * squareObj.h, squareObj.w, squareObj.h);
+	ctx.strokeRect(x * squareObj.w, y * squareObj.h, squareObj.w, squareObj.h);
+
+	// 2. Draw definitions if any
+	if(undefined != definitions){
+		drawDefinitionsAt(definitions, x, y);
+	}else if(undefined != letter){
+		drawLetterAt(letter, x, y);
+	}
+
+	ctx.restore();
+}
+
+function drawGrid(){
+	ctx.save();
+	
+	// We draw the square from the right bottom
+	// to the left top like this :
+	// _____________
+	// |  |  |18| 9|
+	// |  |  |17| 8|
+	// |  |  |16| 7|
+	// |  |  |15| 6|
+	// |  |  |14| 5|
+	// |  |  |13| 4|
+	// |  |..|12| 3|
+	// |  |20|11| 2|
+	// |  |19|10| 1|
+	// -------------
+	// This allows to draw arrows on top of the background
+	// and to draw everything in single loop. Performance!
+
+	for(var x = NCOLS - 1; x >= 0; x--){
+		for(var y = NROWS - 1; y >= 0; y--){
+			drawSquare(x, y);
+		}
+	}
+	ctx.restore();
+}
+
+function draw(){
+	// Clean the whole canvas
+	ctx.clearRect(0,0,grid.width,grid.height);
+	
+	// Draw the whole grid with definitions and letters
+	drawGrid();
+	
+	// Draw the cursor.
+	drawCursor();
+}
+
+
+/***************************************
+ * Data & Services functions
+ ***************************************/
+function onGridDataLoaded(data){
+	var xmlString = $.base64Decode(data);
+	var xmlDoc = $.parseXML(xmlString);
+	var $xml = $(xmlDoc);
+//alert(xmlString);
+	$xml.find('grid').each(function(){
+		NCOLS = $(this).attr('colCount');
+		NROWS = $(this).attr('rowCount');
+		
+		$(this).find('word').each(function(){
+			var word = {
+				idx : $(this).attr('idx'),
+				definition : $(this).attr('definition'),
+				orientation : $(this).attr('orientation'),
+				solution : $(this).attr('solution')
+			};
+			if(undefined == definitionsMap[word.idx]){
+				definitionsMap[word.idx] = new Array();
+			}
+			definitionsMap[word.idx].push(word);
+		});
+	});
+
+	initGrid();
+}
+
+/***************************************
+ * Initialization functions
+ ***************************************/
+function initGrid(){
+	// Get grid using jquery
+	grid = $('#grid')[0];
+
+	// Get canvas context using jquery
+	ctx = grid.getContext("2d");
+	
+	// Init square properties
+	squareObj.w = grid.width / NCOLS;
+	squareObj.h = grid.height / NROWS;
+	
+	// Init cursor properties
+	cursorObj.x = 0;
+	cursorObj.y = 0;
+	
+	// Init keyboard events
+	initKeyboardEvents();
+	
+	// Init mouse events
+	initMouseEvents();
+	
+	// Finally, draw everything
+	draw();
+}
+
+/***************************************
+ * Utils functions
+ ***************************************/
+function printAtWordWrap(text, x, y, lineHeight, fitWidth)
+{
+    fitWidth = fitWidth || 0;
+    
+    if (fitWidth <= 0)
+    {
+        context.fillText( text, x, y );
+        return;
+    }
+    var words = text.split(' ');
+    var currentLine = 0;
+    var idx = 1;
+    while (words.length > 0 && idx <= words.length)
+    {
+        var str = words.slice(0,idx).join(' ');
+        var w = ctx.measureText(str).width;
+        if ( w > fitWidth )
+        {
+            if (idx==1)
+            {
+                idx=2;
+            }
+            ctx.fillText( words.slice(0,idx-1).join(' '), x, y + (lineHeight*currentLine) );
+            currentLine++;
+            words = words.splice(idx-1);
+            idx = 1;
+        }
+        else
+        {idx++;}
+    }
+    if  (idx > 0)
+        ctx.fillText( words.join(' '), x, y + (lineHeight*currentLine) );
+}
+
+function onBodyLoad(){
+	// Fetch data from backend
+	$.get("http://bonsmots.fr/services/grid.php",
+		{ action: "get", id: "43" },
+		onGridDataLoaded
+	);
+}
+</script>
+
+<style type="text/css">
+  canvas {
+	border: 1px solid #000;
+  }
+</style>
+
+</head>
+<body onload="onBodyLoad();">
+	<canvas id="grid" width="500" height="700">
+	Your browser does not support advanced HTML markup.
+	</canvas>
+</body>
+<html>
+						

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Source of Arrows</title>
+	<nodes>
+		<node label="src">
+			<node icon="packageIcon" label="application" expanded="true">
+				<node icon="mxmlAppIcon" selected="true" label="Arrows.mxml" url="source/application/Arrows.mxml.html"/>
+				<node icon="mxmlIcon" label="ArrowsEditor.mxml" url="source/application/ArrowsEditor.mxml.html"/>
+			</node>
+			<node icon="packageIcon" label="components" expanded="true">
+				<node icon="mxmlIcon" label="EndGameWindow.mxml" url="source/components/EndGameWindow.mxml.html"/>
+			</node>
+			<node icon="packageIcon" label="data" expanded="true">
+				<node icon="actionScriptIcon" label="GridBuilder.as" url="source/data/GridBuilder.as.html"/>
+			</node>
+			<node icon="packageIcon" label="enums" expanded="true">
+				<node icon="actionScriptIcon" label="ArrowType.as" url="source/enums/ArrowType.as.html"/>
+				<node icon="actionScriptIcon" label="DefinitionOrientation.as" url="source/enums/DefinitionOrientation.as.html"/>
+				<node icon="actionScriptIcon" label="SquareType.as" url="source/enums/SquareType.as.html"/>
+				<node icon="actionScriptIcon" label="TypingDirection.as" url="source/enums/TypingDirection.as.html"/>
+			</node>
+			<node icon="packageIcon" label="model" expanded="true">
+				<node icon="actionScriptIcon" label="Definition.as" url="source/model/Definition.as.html"/>
+				<node icon="actionScriptIcon" label="Grid.as" url="source/model/Grid.as.html"/>
+				<node icon="actionScriptIcon" label="Square.as" url="source/model/Square.as.html"/>
+			</node>
+			<node icon="packageIcon" label="renderers" expanded="true">
+				<node icon="mxmlIcon" label="DefinitionItemRenderer.mxml" url="source/renderers/DefinitionItemRenderer.mxml.html"/>
+				<node icon="mxmlIcon" label="LetterItemRenderer.mxml" url="source/renderers/LetterItemRenderer.mxml.html"/>
+			</node>
+		</node>
+	</nodes>
+	<zipfile label="Download source (ZIP, 14K)" url="Arrows.zip">
+	</zipfile>
+	<sdklink label="Download Flex SDK" url="http://www.adobe.com/go/flex4_sdk_download">
+	</sdklink>
+</index>

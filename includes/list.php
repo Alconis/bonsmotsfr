@@ -1,9 +1,9 @@
 <?php
 
 $sql = 'SELECT G.title, G.level, G.rowCount, G.colCount, G.date, G.url AS gridUrl, G.doneCount, U.id, U.login, U.url AS authorUrl FROM `arrows_grids` G, `arrows_user` U WHERE G.author = U.id AND G.private = "" AND G.status = "published" ORDER BY G.date DESC';
-$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 
-$nb_results = mysql_num_rows($req);
+$nb_results = mysqli_num_rows($req);
 ?>
 
 <div id="main-content">
@@ -21,7 +21,7 @@ $nb_results = mysql_num_rows($req);
 <div id="grid-list" class="grid-items">
 <?php
 
-while($data = mysql_fetch_assoc($req)){
+while($data = mysqli_fetch_assoc($req)){
 //Squares number
 $str_big_grid = "";
 $str_squares = intval($data["rowCount"]) * intval($data["colCount"]);

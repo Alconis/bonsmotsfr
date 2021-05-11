@@ -10,7 +10,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
   <title>BonsMots.fr - Mots Fl&eacute;ch&eacute;s et Mots Crois&eacute;s en ligne</title>
-  <link rel="alternate" type="application/rss+xml" title="RSS 2.0 - Les Dernières Grilles Publiés" href="http://feeds.feedburner.com/Bonsmotsfr" />
+  <link rel="alternate" type="application/rss+xml" title="RSS 2.0 - Les Derniï¿½res Grilles Publiï¿½s" href="http://feeds.feedburner.com/Bonsmotsfr" />
 
   <meta name="description" content="">
   <meta name="author" content="">
@@ -83,7 +83,7 @@ if ($is_grid){
     </ul>
 </div>
 <?php } ?>
-<h1 id="header-title"><a href="http://www.bonsmots.fr">BonsMots.fr</a></h1>
+<h1 id="header-title"><a href="http://bonsmots.fr">BonsMots.fr</a></h1>
 
 
 </header><!-- Page Header -->

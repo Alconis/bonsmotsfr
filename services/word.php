@@ -38,12 +38,12 @@ if ($action == "check"){
 				if(strpos($suggestion, "'") === false){
 					if(strlen($suggestion) == strlen($word)){
 						$cleanSugg = htmlentities(strtolower($suggestion));
-						$sources = array('&agrave;','&aacute;','&acirc;','ä',
-                                                                 '&egrave;','&eacute;','&ecirc;','ë',
-                                                                 '&igrave;','&iacute;','&icirc;','ï',
-                                                                 '&ograve;','&oacute;','&ocirc;','ö',
-                                                                 '&ugrave;','&uacute;','&ucirc;','ü',
-                                                                 '&ygrave;','&yacute;','&ucirc;','ÿ');
+						$sources = array('&agrave;','&aacute;','&acirc;','ï¿½',
+                                                                 '&egrave;','&eacute;','&ecirc;','ï¿½',
+                                                                 '&igrave;','&iacute;','&icirc;','ï¿½',
+                                                                 '&ograve;','&oacute;','&ocirc;','ï¿½',
+                                                                 '&ugrave;','&uacute;','&ucirc;','ï¿½',
+                                                                 '&ygrave;','&yacute;','&ucirc;','ï¿½');
 						$targets = array('a','a','a','a','e','e','e','e','i','i','i','i','o','o','o','o','u','u','u','u','y','y','y','y');
 						$cleanSugg = str_replace($sources, $targets, $cleanSugg);
 						
@@ -96,14 +96,14 @@ if ($action == "add"){
 		if($level == 0){ $level = 1; }// default level for a word
 
 		$sql =  "SELECT * FROM `arrows_definitions` WHERE `word` LIKE '" . $word . "' AND `definition` LIKE '" . utf8_decode(addslashes($definition)) . "'";
-		$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+		$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 
-		if (false === mysql_fetch_assoc($req)){
+		if (false === mysqli_fetch_assoc($req)){
 		
 		    $sql =  "INSERT INTO `arrows_definitions` (`word`, `definition`, `level`, `authorId`)";
 		    $sql .= " VALUES ('" . $word . "', '" . utf8_decode(addslashes($definition)) . "', '" . $level . "', '" . $userId . "');";
-		    $req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
-		    $dID = mysql_insert_id();
+		    $req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
+		    $dID = mysqli_insert_id($conn);
 		
 		    header("Status: 201 CREATED");
 		    $xml = "<ok/>";
@@ -147,13 +147,13 @@ if ($action == "addGridData"){
                 if ($solution != "" && strlen($solution) > 1 && $definition != ""){
 
                     $sql =  "SELECT * FROM `arrows_definitions` WHERE `word` LIKE '" . $word . "' AND `definition` LIKE '" . utf8_decode(addslashes($definition)) . "'";
-		    $req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+		    $req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 
-		    if (false === mysql_fetch_assoc($req)){
+		    if (false === mysqli_fetch_assoc($req)){
 
                         $sql =  "INSERT INTO `arrows_definitions` (`word`, `definition`, `level`, `authorId`)";
                         $sql .= " VALUES ('" . $solution . "', '" . utf8_decode(addslashes($definition)) . "', '" . $level . "', '" . $userId . "');";
-	                $req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+	                $req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
             
                         $xml .= "<word>Definition '" . $definition . "' for word '" . $solution . "' added with level " . $level . " for userId " . $userId . "</word>";
                     }
@@ -175,13 +175,13 @@ if ($action == "getDefinitions"){
 
 	if($word != ""){
 		$sql = "SELECT D.*, U.login FROM `arrows_definitions` D, `arrows_user` U WHERE D.authorId = U.id AND word LIKE '" . $word . "' ORDER BY word ASC";
-		$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
-		$nb_result = mysql_num_rows($req);
+		$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
+		$nb_result = mysqli_num_rows($req);
 		
 		if($nb_result){
 			header("Status: 200 OK");
 			$xml = '<?xml version="1.0" encoding="utf-8"?><ok>';
-			while($data = mysql_fetch_assoc($req)){
+			while($data = mysqli_fetch_assoc($req)){
 				$xml .= '<word definition="' . utf8_encode(stripslashes($data["definition"])) . '" solution="' . strtoupper($data["word"]) . '" level="' . $data["level"] . '" authorId="' . $data["login"] . '"/>';
 			}
 			$xml .= "</ok>";
@@ -197,7 +197,7 @@ if ($action == "getDefinitions"){
 
 
 // Close connection
-mysql_close();
+mysqli_close();
 
 // Print string
 echo $xml;

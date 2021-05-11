@@ -22,9 +22,9 @@ if ($action == "get"){
         // Final base 64 string that will be printed
         header('Content-Type: text/plain');
 	$sql = 'SELECT data FROM arrows_grids WHERE id=' . $id;
-	$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+	$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 
-	while($data = mysql_fetch_assoc($req)){
+	while($data = mysqli_fetch_assoc($req)){
 		$str = base64_encode($data['data']);
 	}
 }
@@ -33,7 +33,7 @@ if ($action == "INCR_DONE"){
         header('Content-Type: text/xml');
         $str = "";
 	$sql = 'UPDATE arrows_grids SET doneCount = doneCount + 1 WHERE id =' . $id;
-	$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+	$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 
 	// If a user is logged in,
 	// - add it to arrows_grid_user table if never played by this user
@@ -41,14 +41,14 @@ if ($action == "INCR_DONE"){
 	if($userId && $userId != -1){
 
 	    $sql = 'SELECT * FROM `arrows_user_grid` WHERE `userId` = ' . $userId . ' AND `gridId` = ' . $id;
-	    $req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
-	    $num_rows = mysql_num_rows($req);
+	    $req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
+	    $num_rows = mysqli_num_rows($req);
 
 	    if($num_rows == 0){
 		$nbErrors = $_GET["nbErrors"];
 		$sql = 'SELECT level, rowCount, colCount FROM arrows_grids WHERE id=' . $id;
-		$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
-		$data = mysql_fetch_assoc($req);
+		$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
+		$data = mysqli_fetch_assoc($req);
 		$gridLevel = $data["level"];
 
 		if (intval($data["rowCount"]) * intval($data["colCount"]) > 35){
@@ -59,10 +59,10 @@ if ($action == "INCR_DONE"){
 		}
 		
 		$sql = "INSERT INTO `arrows_user_grid` (`userId`, `gridId`, `score`) VALUES ('" . $userId . "', '" . $id . "', '" . $gridLevel . "')";
-		$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+		$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 
 		$sql = 'UPDATE arrows_user SET doneScore = doneScore + ' . $gridLevel . ' WHERE id =' . $userId;
-		$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+		$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 	    }
 	}
 }
@@ -88,8 +88,8 @@ if ($action == "add"){
             if($gStatus == ""){$gStatus = "scheduled";}// By default we schedule a grid for publication
             if(!$gDate){
                 $sql = "SELECT date FROM `arrows_grids` WHERE 1 ORDER BY date DESC LIMIT 0, 1";
-		$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
-		$data = mysql_fetch_assoc($req);
+		$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
+		$data = mysqli_fetch_assoc($req);
 		$gDate = strtotime($data["date"]);
 
 		if($gDate < time()){
@@ -101,12 +101,12 @@ if ($action == "add"){
 
 	    $sql =  "INSERT INTO `arrows_grids` (`title`, `level`, `author`, `rowCount`, `colCount`, `data`, `private`, `date`, `doneCount`, `status`) ";
             $sql .= "VALUES ('".$gTitle."', '".$gLevel."', '".$gAuthorId."', '".$gRowCount."', '".$gColCount."', '".$gData."', '".$gPrivate."', '".$gDate."', '0', '".$gStatus."');";
-	    $req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+	    $req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 
-	    $gID = mysql_insert_id();
+	    $gID = mysqli_insert_id();
 	    $gURL = 'http://bonsmots.fr/grille/'.$gID.'-grille.html';
 	    $sql =  "UPDATE `arrows_grids` SET `url` = '".$gURL."' WHERE `id` = ".$gID ;
-            $req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+            $req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 
             header('Status: 200 OK');
             $str = '<ok>'.$gID.'</ok>';
@@ -121,7 +121,7 @@ if ($action == "add"){
 }
 
 // Close connection
-mysql_close();
+mysqli_close();
 
 // Print string
 echo $str;

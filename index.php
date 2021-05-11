@@ -1,4 +1,10 @@
 <?php
+/*
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
+*/
+
 session_start();
 
 if(isset($_GET['deconnexion'])){
@@ -20,8 +26,8 @@ if ($userId){
 	$the_user->id = $userId;
 	
 	$sql = 'SELECT * FROM arrows_user WHERE id=' . $the_user->id;
-	$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
-	$data = mysql_fetch_assoc($req);
+	$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
+	$data = mysqli_fetch_assoc($req);
 	if ($data){
 		$the_user->login = $data['login'];
 		$the_user->mail = $data['mail'];
@@ -46,8 +52,8 @@ if ($is_grid && $_GET["id"]){
 	$the_grid->id = $_GET["id"];
 	
 	$sql = "SELECT G.*, U.login FROM arrows_grids G, arrows_user U WHERE G.id =" . $the_grid->id . " AND G.author = U.id AND status='published'";
-	$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
-	$data = mysql_fetch_assoc($req);
+	$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
+	$data = mysqli_fetch_assoc($req);
 	if ($data){
 		$the_grid->title = $data['title'];
 		$the_grid->level = $data['level'];

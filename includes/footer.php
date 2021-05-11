@@ -46,6 +46,6 @@ Copyright Nicolas Demange - 2010
 <?php 
 
 // Close connection
-mysql_close();
+mysqli_close($conn);
 
 ?>	

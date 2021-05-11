@@ -3,7 +3,7 @@
 include("config-db.php");
 
 $sql = 'SELECT G.title, G.level, G.date, G.url, U.login, U.mail FROM `arrows_grids` G, `arrows_user` U WHERE G.author = U.id AND G.private = "" AND G.status = "published" ORDER BY G.date DESC LIMIT 0 , 10';
-$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 
 
 header('Content-Type: text/xml');
@@ -23,7 +23,7 @@ $current_date = date(DATE_RSS, $current_time);
 
 
 <?php
-while($data = mysql_fetch_assoc($req)){
+while($data = mysqli_fetch_assoc($req)){
 
 $item_time = strtotime($data["date"]);
 $item_date = date(DATE_RSS, $item_time);
@@ -32,7 +32,7 @@ $item_date = date(DATE_RSS, $item_time);
         <item>
             <title><?=$data["title"];?></title>
             <author><?=$data["mail"];?></author>
-            <description>La grille de mots fléchés intitulée <?=$data["title"];?> de niveau <?=$data["level"];?> créée par <?=$data["login"];?> est disponible sur BonsMots.fr.</description>
+            <description>La grille de mots flï¿½chï¿½s intitulï¿½e <?=$data["title"];?> de niveau <?=$data["level"];?> crï¿½ï¿½e par <?=$data["login"];?> est disponible sur BonsMots.fr.</description>
             <pubDate><?=$item_date;?></pubDate>
             <link><?=$data["url"];?></link>
 

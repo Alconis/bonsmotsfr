@@ -16,8 +16,8 @@ if ($the_user && $the_user->id == $userId){
 
 
 $sql = 'SELECT * FROM arrows_user WHERE isAdmin = 0 ORDER BY doneScore DESC';
-$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
-$nb_results = mysql_num_rows($req);
+$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
+$nb_results = mysqli_num_rows($req);
 ?>
 <header><h1>Les joueurs de BonsMots.fr</h1></header>
 
@@ -38,7 +38,7 @@ votre score sera amput&eacute; d'autant d'erreurs commises.</p>
   <tbody>
 <?php
 $i=1;
-while($data = mysql_fetch_assoc($req)){
+while($data = mysqli_fetch_assoc($req)){
 
 ?>
 	<? if($data["id"] == $userId){ ?>

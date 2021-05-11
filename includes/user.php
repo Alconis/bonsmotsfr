@@ -18,8 +18,8 @@ $user = new User();
 $user->id = $userId;
 
 $sql = 'SELECT * FROM arrows_user WHERE id=' . $user->id;
-$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
-$data = mysql_fetch_assoc($req);
+$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
+$data = mysqli_fetch_assoc($req);
 if ($data){
 	$user->login = $data['login'];
 	$user->mail = $data['mail'];
@@ -45,8 +45,8 @@ votre score sera amput&eacute; d'autant d'erreurs commises.</p>
 <!-- PLAYED GRID LIST -->
 <?php
 $sql = 'SELECT G.title, G.level, G.rowCount, G.colCount, G.url, UG.score FROM `arrows_user_grid` UG, `arrows_grids` G WHERE UG.gridId = G.id AND UG.userId = ' . $user->id . ' ORDER BY G.date DESC';
-$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
-$nb_results = mysql_num_rows($req);
+$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
+$nb_results = mysqli_num_rows($req);
 ?>
 
 <table class="user-grids">
@@ -62,7 +62,7 @@ $nb_results = mysql_num_rows($req);
   <tbody>
 <?php
 
-while($data = mysql_fetch_assoc($req)){
+while($data = mysqli_fetch_assoc($req)){
 
 $str_squares = intval($data["rowCount"]) * intval($data["colCount"]);
 
@@ -88,8 +88,8 @@ if ($data["level"] == "1"){
 <!-- NON PLAYED GRID LIST -->
 <?php
 $sql = 'SELECT title, level, rowCount, colCount, url FROM `arrows_grids` WHERE private = "" AND status = "published" AND id NOT IN (SELECT gridId FROM `arrows_user_grid` WHERE userId = ' . $user->id . ')';
-$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
-$nb_results = mysql_num_rows($req);
+$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
+$nb_results = mysqli_num_rows($req);
 ?>
 
 <table class="user-grids">
@@ -104,7 +104,7 @@ $nb_results = mysql_num_rows($req);
   <tbody>
 <?php
 
-while($data = mysql_fetch_assoc($req)){
+while($data = mysqli_fetch_assoc($req)){
 
 $str_squares = intval($data["rowCount"]) * intval($data["colCount"]);
 

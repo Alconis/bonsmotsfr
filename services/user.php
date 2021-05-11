@@ -14,9 +14,9 @@ header('Content-Type: text/xml');
 
 if ($action == "get"){
 	$sql = 'SELECT * FROM arrows_user WHERE id=' . $id;
-	$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+	$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 
-	$data = mysql_fetch_assoc($req);
+	$data = mysqli_fetch_assoc($req);
 	if($data){
 		$xml = '<user id="' . $data["id"] . '" login="' . $data["login"] . '" mail="' . $data["mail"] . '" doneCount="' . $data["doneCount"] . '" bonusCount="' . $data["bonusCount"] . '"/>';
 	}
@@ -28,9 +28,9 @@ if ($action == "login"){
 	$user_password = $_POST["password"];
 
 	$sql = 'SELECT id FROM arrows_user WHERE login="' . $user_login . '" AND password="' . $user_password . '"';
-	$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+	$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 
-	$data = mysql_fetch_assoc($req);
+	$data = mysqli_fetch_assoc($req);
 	if($data){
 		//setcookie('loggedUserId', $data["id"] , (time() + 3600));
 		session_start();
@@ -55,24 +55,24 @@ if ($action == "add"){
 
 	if ($user_login && $user_password && $user_mail){
 		$sql = "SELECT login FROM arrows_user WHERE login='" . $user_login . "'";
-		$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
-		$data = mysql_fetch_assoc($req);
+		$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
+		$data = mysqli_fetch_assoc($req);
 		if($data){
 			$xml = "<ko>L'identifiant " . $user_login . " existe deja. Veuillez en choisir un autre.</ko>";
 		}else{
 			$sql = "INSERT INTO `arrows_user` (`login`, `password`, `mail`) VALUES ('" . $user_login . "', '" . $user_password . "', '" . $user_mail . "');";
-			$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+			$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 			$xml = '<ok/>';
 			
 			$sql = "SELECT id FROM arrows_user WHERE login='" . $user_login . "'";
-			$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
-			$data = mysql_fetch_assoc($req);
+			$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
+			$data = mysqli_fetch_assoc($req);
 			$newUserId = $data["id"];
 
 			$userUrl = 'http://bonsmots.fr/joueur/'. $newUserId . '-fiche.html';
 
 			$sql = "UPDATE `arrows_user` SET `url` = '" . $userUrl . "' WHERE `id` = " . $newUserId;
-			$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+			$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 
 			session_start();
 			$_SESSION["loggedUserId"] = $newUserId;
@@ -91,7 +91,7 @@ if ($action == "finishGrid"){
 
 	if ($score  && $gridId  && $id){
 		$sql = "INSERT INTO `arrows_user_grid` (`userId`, `gridId`, `score`) VALUES ('" . $id . "', '" . $gridId . "', '" . $score . "');";
-		$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
+		$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
                 header('Status: 204 No Content');
 	}else{
                 header('Status: 400 Bad Request');
@@ -99,7 +99,7 @@ if ($action == "finishGrid"){
 }
 
 // Close connection
-mysql_close();
+mysqli_close();
 
 // Print string
 echo $xml;

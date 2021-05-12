@@ -1,0 +1,91 @@
+
+.menu {
+  text-transform : uppercase;
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  color: #888;
+  cursor: pointer;
+
+  &.active, &:hover {
+    color: #000;
+    background-color: #ddd;
+  }
+}
+
+.grid {
+  position: relative;
+  border: 1px solid #dedede;
+
+  .square {
+    position: relative;
+    box-sizing: border-box;
+    float: left;
+    display: inline-block;
+    border: 1px solid #000;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bolder;
+
+    &.wrap {
+      clear: left;
+    }
+
+    &:hover {
+      background-color: #D0D9F5;
+    }
+    &.selected {
+      border-color: #00F;
+      background-color: #D0D9F5;
+    }
+
+    &.editor {
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 30px;
+
+      &.definition {
+        background-color: #000;
+
+        &.selected {
+          background-color: #333;
+        }
+        &:hover {
+          background-color: #333;
+        }
+      }
+
+      .idx {
+        position: absolute;
+        font-size: 8px;
+        font-weight: normal;
+        line-height: 9px;
+        top: 1px;
+        right: 2px;
+        color: #777;
+      }
+    }
+
+    &.player {
+      width: 80px;
+      height: 80px;
+      line-height: 80px;
+      font-size: 70px;
+
+      &.definition {
+        background-color: #EFFAB6;
+
+        &.selected {
+          background-color: #DEE8A9;
+        }
+        &:hover {
+          background-color: #DEE8A9;
+        }
+      }
+    }
+
+  }
+}

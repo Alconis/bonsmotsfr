@@ -388,7 +388,7 @@ function printAtWordWrap(text, x, y, lineHeight, fitWidth)
 
 function onBodyLoad(){
 	// Fetch data from backend
-	$.get("http://bonsmots.fr/services/grid.php",
+	$.get("https://bonsmots.fr/services/grid.php",
 		{ action: "get", id: "43" },
 		onGridDataLoaded
 	);

@@ -19,7 +19,7 @@ $current_date = date(DATE_RSS, $current_time);
         <title>BonsMots.fr</title>
         <description>Flux RSS de BonsMots.fr- Grilles de Mots fleches en ligne pour tous</description>
         <lastBuildDate><?=$current_date;?></lastBuildDate>
-        <link>http://www.bonsmots.fr</link>
+        <link>https://www.bonsmots.fr</link>
 
 
 <?php

@@ -113,7 +113,7 @@ while($data = mysqli_fetch_assoc($req)){
 <li><a href="<?=$data['url'];?>" class="detail-author"><strong><?=htmlentities($data['login'], ENT_QUOTES);?></strong></a>: <?=$data['doneScore'];?> points</li>
 <?php } ?>
 </ul>
-<a href="http://bonsmots.fr/joueurs/" style="float:right;font-size:10px;color:#AEAEAE;">Voir tous les joueurs</a>
+<a href="https://bonsmots.fr/joueurs/" style="float:right;font-size:10px;color:#AEAEAE;">Voir tous les joueurs</a>
 </div>
 
 
@@ -161,10 +161,10 @@ while($data = mysqli_fetch_assoc($req)){
 <div class="sidebar-block" style="margin-bottom: 100px">
 <h1>Quand on aime...</h1>
 <div style="margin-left: 10px;">
-<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fbonsmots.fr&amp;layout=standard&amp;show_faces=false&amp;width=250&amp;action=like&amp;font=trebuchet+ms&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:250px; height:35px;" allowTransparency="true"></iframe>
+<iframe src="https://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fbonsmots.fr&amp;layout=standard&amp;show_faces=false&amp;width=250&amp;action=like&amp;font=trebuchet+ms&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:250px; height:35px;" allowTransparency="true"></iframe>
 
-<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="Alconis">Tweet</a>
-<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="Alconis">Tweet</a>
+<script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
 </div></div>
 
 </aside><!-- Sidebar -->

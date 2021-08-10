@@ -57,7 +57,7 @@ if ($isNew){
 ?>
 
 <div class="grid-item">
-<div class="grid-item-thumb"><a href="<?=$data['gridUrl'];?>"><img src="http://bonsmots.fr/img/grid_icon_big_lvl<?=$data['level'];?>.png"></a></div>
+<div class="grid-item-thumb"><a href="<?=$data['gridUrl'];?>"><img src="https://bonsmots.fr/img/grid_icon_big_lvl<?=$data['level'];?>.png"></a></div>
 <div class="grid-item-title">
 <h3><a href="<?=$data['gridUrl'];?>"><?=htmlentities($data['title'], ENT_QUOTES);?></a><?=$str_big_grid;?><?=$str_new;?></h3>
 <ul class="grid-item-details">

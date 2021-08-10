@@ -69,7 +69,7 @@ if ($action == "add"){
 			$data = mysqli_fetch_assoc($req);
 			$newUserId = $data["id"];
 
-			$userUrl = 'http://bonsmots.fr/joueur/'. $newUserId . '-fiche.html';
+			$userUrl = 'https://bonsmots.fr/joueur/'. $newUserId . '-fiche.html';
 
 			$sql = "UPDATE `arrows_user` SET `url` = '" . $userUrl . "' WHERE `id` = " . $newUserId;
 			$req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));

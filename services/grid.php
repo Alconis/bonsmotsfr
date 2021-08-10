@@ -104,7 +104,7 @@ if ($action == "add"){
 	    $req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 
 	    $gID = mysqli_insert_id();
-	    $gURL = 'http://bonsmots.fr/grille/'.$gID.'-grille.html';
+	    $gURL = 'https://bonsmots.fr/grille/'.$gID.'-grille.html';
 	    $sql =  "UPDATE `arrows_grids` SET `url` = '".$gURL."' WHERE `id` = ".$gID ;
             $req = mysqli_query($conn, $sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysqli_error($conn));
 

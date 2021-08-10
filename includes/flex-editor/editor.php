@@ -16,7 +16,7 @@
 
 <noscript>
 	<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="ArrowsEditor">
-		<param name="movie" value="http://bonsmots.fr/includes/flex-editor/ArrowsEditor.swf" />
+		<param name="movie" value="https://bonsmots.fr/includes/flex-editor/ArrowsEditor.swf" />
 		<param name="quality" value="high" />
 		<param name="bgcolor" value="#ffffff" />
 		<param name="allowScriptAccess" value="sameDomain" />
@@ -24,7 +24,7 @@
 		<param name='flashVars' value=''/>
 
 		<!--[if !IE]>-->
-		<object type="application/x-shockwave-flash" data="http://bonsmots.fr/includes/flex-editor/ArrowsEditor.swf" width="100%" height="100%">
+		<object type="application/x-shockwave-flash" data="https://bonsmots.fr/includes/flex-editor/ArrowsEditor.swf" width="100%" height="100%">
 			<param name="quality" value="high" />
 			<param name="bgcolor" value="#ffffff" />
 			<param name="allowScriptAccess" value="sameDomain" />

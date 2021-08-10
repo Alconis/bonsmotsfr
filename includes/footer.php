@@ -12,21 +12,21 @@ Copyright Nicolas Demange - 2010
   <!-- Javascript at the bottom for fast page loading -->
 
   <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-  <script>!window.jQuery && document.write('<script src="http://bonsmots.fr/js/jquery-1.4.2.min.js"><\/script>')</script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write('<script src="https://bonsmots.fr/js/jquery-1.4.2.min.js"><\/script>')</script>
 
-  <script src="http://bonsmots.fr/js/plugins.js?v=1"></script>
-  <script src="http://bonsmots.fr/js/plugins/jquery.validate.min.js?v=1"></script>
-  <script src="http://bonsmots.fr/js/plugins/jquery.popupWindow.js?v=1"></script>
-  <script src="http://bonsmots.fr/js/script.js?v=1"></script>
+  <script src="https://bonsmots.fr/js/plugins.js?v=1"></script>
+  <script src="https://bonsmots.fr/js/plugins/jquery.validate.min.js?v=1"></script>
+  <script src="https://bonsmots.fr/js/plugins/jquery.popupWindow.js?v=1"></script>
+  <script src="https://bonsmots.fr/js/script.js?v=1"></script>
 
   <!--[if lt IE 7 ]>
-    <script src="http://bonsmots.fr/js/dd_belatedpng.js?v=1"></script>
+    <script src="https://bonsmots.fr/js/dd_belatedpng.js?v=1"></script>
   <![endif]-->
 
   <!-- yui profiler and profileviewer - remove for production -->
-  <script src="http://bonsmots.fr/js/profiling/yahoo-profiling.min.js?v=1"></script>
-  <script src="http://bonsmots.fr/js/profiling/config.js?v=1"></script>
+  <script src="https://bonsmots.fr/js/profiling/yahoo-profiling.min.js?v=1"></script>
+  <script src="https://bonsmots.fr/js/profiling/config.js?v=1"></script>
   <!-- end profiling code -->
 
   <script>

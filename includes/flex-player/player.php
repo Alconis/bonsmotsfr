@@ -16,7 +16,7 @@
 
 <noscript>
 	<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="Arrows">
-		<param name="movie" value="http://bonsmots.fr/includes/flex-player/Arrows.swf" />
+		<param name="movie" value="https://bonsmots.fr/includes/flex-player/Arrows.swf" />
 		<param name="quality" value="high" />
 		<param name="bgcolor" value="#ffffff" />
 		<param name="allowScriptAccess" value="sameDomain" />
@@ -24,7 +24,7 @@
 		<param name='flashVars' value='gridId=<?=$gridId;?>&gridXML=<?=$the_grid->Base64Data;?>'/>
 
 		<!--[if !IE]>-->
-		<object type="application/x-shockwave-flash" data="http://bonsmots.fr/includes/flex-player/Arrows.swf" width="100%" height="100%">
+		<object type="application/x-shockwave-flash" data="https://bonsmots.fr/includes/flex-player/Arrows.swf" width="100%" height="100%">
 			<param name="quality" value="high" />
 			<param name="bgcolor" value="#ffffff" />
 			<param name="allowScriptAccess" value="sameDomain" />

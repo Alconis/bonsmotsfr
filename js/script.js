@@ -57,7 +57,7 @@ $(document).ready(function() {
 			confirm_password: {
 				required: "Confirmez le mot de passe",
 				minlength: "Le mot de passe doit avoir au moins 2 lettres",
-				equalTo: "Re-tapez le même mot de passe que ci-dessus"
+				equalTo: "Re-tapez le mï¿½me mot de passe que ci-dessus"
 			},
 			email: "Entrez une adresse mail valide"
 		}
@@ -249,7 +249,7 @@ function incrementGridDoneCount(gridId, nbErrors, loggedUserId){
 	
 	$.ajax({
 		type: "GET",
-		url: "http://bonsmots.fr/services/grid.php",
+		url: "https://bonsmots.fr/services/grid.php",
 		data: "action=INCR_DONE&id=" + gridId + "&nbErrors=" + nbErrors + "&userId=" + loggedUserId,
 		success: function(msg){
 			//alert("good increment for " + gridId);
@@ -258,11 +258,11 @@ function incrementGridDoneCount(gridId, nbErrors, loggedUserId){
 }
 
 function registerUser(login,password,mail){
-	$.post("http://bonsmots.fr/services/user.php",
+	$.post("https://bonsmots.fr/services/user.php",
 		{ action: "add", login: login, password: password, mail: mail },
 		function(data, textStatus, XMLHttpRequest){
 			if ($(data.responseXML).find('ok')){
-				$(location).attr('href','http://bonsmots.fr');
+				$(location).attr('href','https://bonsmots.fr');
 			}else{
 				alert(XMLHttpRequest.responseXML);
 			}
@@ -272,11 +272,11 @@ function registerUser(login,password,mail){
 }
 
 function logUser(login,password){
-	$.post("http://bonsmots.fr/services/user.php",
+	$.post("https://bonsmots.fr/services/user.php",
 		{ action: "login", login: login, password: password },
 		function(data, textStatus, XMLHttpRequest){
 			if ($(data.responseXML).find('ok')){
-				$(location).attr('href','http://bonsmots.fr');
+				$(location).attr('href','https://bonsmots.fr');
 			}else{
 				alert(XMLHttpRequest.responseXML);
 			}
@@ -296,7 +296,7 @@ function popupAlexandria(word){
 function searchDico(word){
   $.ajax({
     type : "GET",
-    url : "http://bonsmots.fr/services/word.php",
+    url : "https://bonsmots.fr/services/word.php",
     data : { action : "getDefinitions", w : word },
     dataType : "xml",
     success : function(data, textStatus, XMLHttpRequest){
@@ -311,7 +311,7 @@ function searchDico(word){
         var level = $(this).attr("level");
         var authorId = $(this).attr("authorId");
 
-        $('#dico-result-body').append('<tr><td>' + (++idx) + '</td><td><a href="#" onClick="javascript:popupAlexandria(\'' + word + '\')"><strong>' + word + '</strong></a></td><td>' + definition + '</td><td><img src="http://bonsmots.fr/img/level_' + level + '.png"></td><td>' + authorId + '</td></tr>');
+        $('#dico-result-body').append('<tr><td>' + (++idx) + '</td><td><a href="#" onClick="javascript:popupAlexandria(\'' + word + '\')"><strong>' + word + '</strong></a></td><td>' + definition + '</td><td><img src="https://bonsmots.fr/img/level_' + level + '.png"></td><td>' + authorId + '</td></tr>');
       });
       $('#dico-result caption').html( idx + " entr&eacute;es du Bon Dico pour '" + word + "'");
 
@@ -328,7 +328,7 @@ function searchDico(word){
 function addDico(word, definition, level){
 $.ajax({
     type : "GET",
-    url : "http://bonsmots.fr/services/word.php",
+    url : "https://bonsmots.fr/services/word.php",
     data : { action : "add", w : word, definition : definition, level : level },
     dataType : "xml",
     success : function(data, textStatus, XMLHttpRequest){

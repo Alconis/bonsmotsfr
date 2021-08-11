@@ -1,60 +1,49 @@
-.grid {
-  position: relative;
-  border: 1px solid #dedede;
+.player {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-  .square {
-    position: relative;
-    box-sizing: border-box;
-    float: left;
-    display: inline-block;
+  .grid {
+    display: flex;
+    flex-direction: column;
+
     border: 1px solid #000;
-    cursor: pointer;
-    text-align: center;
-    font-weight: bolder;
 
-    &.wrap {
-      clear: left;
-    }
+    .gridRow {
+      display: flex;
+      flex-direction: row;
+      flex-basis: content;
 
-    &:hover {
-      background-color: #D0D9F5;
-    }
-    &.selected {
-      border-color: #00F;
-      background-color: #D0D9F5;
-    }
-
-    &.editor {
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
-      font-size: 30px;
-
-      &.definition {
-        background-color: #000;
-
-        &.selected {
-          background-color: #333;
-        }
-        &:hover {
-          background-color: #333;
+      &:last-child {
+        .square{
+          border-bottom-color: transparent;
         }
       }
-
-      .idx {
-        position: absolute;
-        font-size: 8px;
-        font-weight: normal;
-        line-height: 9px;
-        top: 1px;
-        right: 2px;
-        color: #777;
-      }
     }
 
-    &.player {
-      width: 80px;
-      height: 80px;
+    .square {
+      width: 5rem;
+      height: 5rem;
+
+      position: relative;
+      border: 1px solid #000;
+      border-top-color: transparent;
+      border-left-color: transparent;
+      cursor: pointer;
+
+      &:last-child {
+        border-right-color: transparent;
+      }
+
+      &:hover {
+        background-color: #D0D9F5;
+      }
+
+      &.selected {
+        border: 1px solid #00F;
+        background-color: #D0D9F5;
+      }
 
       &.definition {
         display: flex;
@@ -64,20 +53,64 @@
         &.selected {
           background-color: #DEE8A9;
         }
+
         &:hover {
           background-color: #DEE8A9;
         }
 
+        &:after, &:before {
+          position: absolute;
+          width: 1rem;
+          height: 1rem;
+          line-height: 1rem;
+          font-size: 1rem;
+          text-align: center;
+          z-index: 1;
+        }
+
+        &.arrow-vertical {
+          &:after {
+            content: "↓";
+            bottom: -1rem;
+            width: 100%;
+          }
+        }
+
+        &.arrow-vertical-right {
+          &:before {
+            content: "↴";
+            right: -1rem;
+          }
+        }
+
+        &.arrow-horizontal {
+          &:before {
+            content: "→";
+            right: -1rem;
+          }
+        }
+
+        &.arrow-horizontal-under {
+          &:after {
+            content: "↳";
+            bottom: -1rem;
+            width: 100%;
+          }
+        }
+
         .def {
           flex-grow: 1;
+          font-size: 0.75rem;
 
+          position: relative;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-content: center;
           text-align: center;
+          overflow: hidden;
 
-          border-bottom: 1px solid black;
+          border-bottom: 1px solid #000;
 
           &:last-child {
             border-bottom: none;
@@ -86,8 +119,13 @@
       }
 
       &.letter {
-        line-height: 80px;
-        font-size: 70px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+        text-align: center;
+
+        font-size: 2rem;
       }
     }
 

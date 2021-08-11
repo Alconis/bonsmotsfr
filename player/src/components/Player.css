@@ -1,80 +1,101 @@
-.grid {
-  position: relative;
-  border: 1px solid #dedede;
+.player {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.grid .square {
-  position: relative;
-  box-sizing: border-box;
-  float: left;
-  display: inline-block;
+.player .grid {
+  display: flex;
+  flex-direction: column;
   border: 1px solid #000;
+}
+.player .grid .gridRow {
+  display: flex;
+  flex-direction: row;
+  flex-basis: content;
+}
+.player .grid .gridRow:last-child .square {
+  border-bottom-color: transparent;
+}
+.player .grid .square {
+  width: 5rem;
+  height: 5rem;
+  position: relative;
+  border: 1px solid #000;
+  border-top-color: transparent;
+  border-left-color: transparent;
   cursor: pointer;
-  text-align: center;
-  font-weight: bolder;
 }
-.grid .square.wrap {
-  clear: left;
+.player .grid .square:last-child {
+  border-right-color: transparent;
 }
-.grid .square:hover {
+.player .grid .square:hover {
   background-color: #D0D9F5;
 }
-.grid .square.selected {
-  border-color: #00F;
+.player .grid .square.selected {
+  border: 1px solid #00F;
   background-color: #D0D9F5;
 }
-.grid .square.editor {
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  font-size: 30px;
-}
-.grid .square.editor.definition {
-  background-color: #000;
-}
-.grid .square.editor.definition.selected {
-  background-color: #333;
-}
-.grid .square.editor.definition:hover {
-  background-color: #333;
-}
-.grid .square.editor .idx {
-  position: absolute;
-  font-size: 8px;
-  font-weight: normal;
-  line-height: 9px;
-  top: 1px;
-  right: 2px;
-  color: #777;
-}
-.grid .square.player {
-  width: 80px;
-  height: 80px;
-}
-.grid .square.player.definition {
+.player .grid .square.definition {
   display: flex;
   flex-direction: column;
   background-color: #EFFAB6;
 }
-.grid .square.player.definition.selected {
+.player .grid .square.definition.selected {
   background-color: #DEE8A9;
 }
-.grid .square.player.definition:hover {
+.player .grid .square.definition:hover {
   background-color: #DEE8A9;
 }
-.grid .square.player.definition .def {
+.player .grid .square.definition:after,
+.player .grid .square.definition:before {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  line-height: 1rem;
+  font-size: 1rem;
+  text-align: center;
+  z-index: 1;
+}
+.player .grid .square.definition.arrow-vertical:after {
+  content: "↓";
+  bottom: -1rem;
+  width: 100%;
+}
+.player .grid .square.definition.arrow-vertical-right:before {
+  content: "↴";
+  right: -1rem;
+}
+.player .grid .square.definition.arrow-horizontal:before {
+  content: "→";
+  right: -1rem;
+}
+.player .grid .square.definition.arrow-horizontal-under:after {
+  content: "↳";
+  bottom: -1rem;
+  width: 100%;
+}
+.player .grid .square.definition .def {
   flex-grow: 1;
+  font-size: 0.75rem;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
   text-align: center;
-  border-bottom: 1px solid black;
+  overflow: hidden;
+  border-bottom: 1px solid #000;
 }
-.grid .square.player.definition .def:last-child {
+.player .grid .square.definition .def:last-child {
   border-bottom: none;
 }
-.grid .square.player.letter {
-  line-height: 80px;
-  font-size: 70px;
+.player .grid .square.letter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  font-size: 2rem;
 }
 /*# sourceMappingURL=Player.css.map */

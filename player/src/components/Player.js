@@ -119,16 +119,33 @@ class Player extends Component {
     }
 
     render() {
-        return (
-            <div className="grid" tabIndex="-1" onKeyDown={this.onGridKeyDown}>
-                {
-                    this.state.squares.map((sq, index) => {
-                        let sqClasses = (sq.idx % this.state.cols === 0) ? 'wrap ' : '';
-                        sqClasses += (this.state.selectedIndex === sq.idx) ? 'selected' : '';
+        let gridRows = [];
+        let gridCursor = 0;
+        for (let row = 0; row < this.state.rows; row++){
+            let rowItems = [];
 
-                        return <Square className={sqClasses} key={sq.idx} square={sq} onClick={this.onSquareClick}/>;
-                    })
-                }
+            for (let col = 0; col < this.state.cols; col++){
+                const sq = this.state.squares[gridCursor];
+
+                let sqClasses = (this.state.selectedIndex === sq.idx) ? 'selected' : '';
+
+                rowItems.push((
+                    <Square className={sqClasses} key={sq.idx} square={sq} onClick={this.onSquareClick}/>
+                ));
+
+                gridCursor++;
+            }
+
+            gridRows.push((
+                <div className="gridRow">{rowItems}</div>
+            ));
+        }
+
+        return (
+            <div className="player">
+                <div className="grid" tabIndex="-1" onKeyDown={this.onGridKeyDown}>
+                    {gridRows}
+                </div>
             </div>
         );
     }

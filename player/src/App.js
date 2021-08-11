@@ -39,7 +39,7 @@ function App() {
       '    },\n' +
       '    {\n' +
       '      "idx": 30,\n' +
-      '      "definition": "Seen",\n' +
+      '      "definition": "Seen une definition qui dépasse la case mais en fait pas vraiment ou bien si en fait",\n' +
       '      "orientation": "horizontal",\n' +
       '      "solution": "SEEN"\n' +
       '    },\n' +
@@ -51,7 +51,7 @@ function App() {
       '    },\n' +
       '    {\n' +
       '      "idx": 2,\n' +
-      '      "definition": "Romane",\n' +
+      '      "definition": "Eglise Romane du XV",\n' +
       '      "orientation": "vertical",\n' +
       '      "solution": "ROMANE"\n' +
       '    },\n' +

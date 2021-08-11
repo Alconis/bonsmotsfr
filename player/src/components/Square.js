@@ -13,13 +13,27 @@ class Square extends Component {
 
     render() {
         let sqClasses = this.props.className + " ";
-        sqClasses += this.square.type;
+        sqClasses += this.square.type + " ";
         sqClasses += this.square.arrowsClasses + " ";
+
+        let sqContent;
+        if(this.square.type === 'definition'){
+            sqContent = this.square.definitions.map((definition) => {
+                return (
+                    <div class={"def " + definition.orientation}>
+                        {definition.text}
+                    </div>
+                )
+            });
+        }else{
+            sqContent = this.square.letter;
+        }
 
         return (
             <div className={"square player " + sqClasses} onClick={this.onClick}>
-                {this.square.type === 'definition' ? this.square.definitions.length : this.square.letter}
-            </div>);
+                {sqContent}
+            </div>
+        );
     }
 }
 

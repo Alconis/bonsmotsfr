@@ -49,10 +49,10 @@
 .grid .square.player {
   width: 80px;
   height: 80px;
-  line-height: 80px;
-  font-size: 70px;
 }
 .grid .square.player.definition {
+  display: flex;
+  flex-direction: column;
   background-color: #EFFAB6;
 }
 .grid .square.player.definition.selected {
@@ -60,5 +60,21 @@
 }
 .grid .square.player.definition:hover {
   background-color: #DEE8A9;
+}
+.grid .square.player.definition .def {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+.grid .square.player.definition .def:last-child {
+  border-bottom: none;
+}
+.grid .square.player.letter {
+  line-height: 80px;
+  font-size: 70px;
 }
 /*# sourceMappingURL=Player.css.map */

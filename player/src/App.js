@@ -76,12 +76,49 @@ function App() {
       '  ]\n' +
       '}';
 
-  let grid = new Grid();
-  grid.initializeFromJSON(gridJSONString);
+  const gridXMLString = "<grid colCount=\"9\" rowCount=\"7\">\n" +
+      "  <word idx=\"0\" definition=\"Aguichai\" orientation=\"vertical-right\" solution=\"RACOLAI\"/>\n" +
+      "  <word idx=\"2\" definition=\"GardÃ©s Ã  l'oeil\" orientation=\"vertical-right\" solution=\"CILS\"/>\n" +
+      "  <word idx=\"4\" definition=\"Apprends\" orientation=\"vertical-right\" solution=\"ETUDIES\"/>\n" +
+      "  <word idx=\"6\" definition=\"Hommes de lettres\" orientation=\"vertical-right\" solution=\"POETES\"/>\n" +
+      "  <word idx=\"8\" definition=\"\" orientation=\"none\" solution=\"\"/>\n" +
+      "  <word idx=\"0\" definition=\"Changement\" orientation=\"horizontal-under\" solution=\"VARIATION\"/>\n" +
+      "  <word idx=\"2\" definition=\"Halte\" orientation=\"vertical\" solution=\"RELAIS\"/>\n" +
+      "  <word idx=\"4\" definition=\"Aluminium\" orientation=\"vertical\" solution=\"AL\"/>\n" +
+      "  <word idx=\"6\" definition=\"Se font mener en bateau\" orientation=\"vertical\" solution=\"ILIENS\"/>\n" +
+      "  <word idx=\"18\" definition=\"PiÃ¨ce de taule\" orientation=\"horizontal\" solution=\"CELLULE\"/>\n" +
+      "  <word idx=\"18\" definition=\"RÃ©cipients\" orientation=\"horizontal-under\" solution=\"BOLS\"/>\n" +
+      "  <word idx=\"31\" definition=\"MentionnÃ©e\" orientation=\"horizontal\" solution=\"DITE\"/>\n" +
+      "  <word idx=\"26\" definition=\"Vis\" orientation=\"vertical\" solution=\"ES\"/>\n" +
+      "  <word idx=\"36\" definition=\"Ici\" orientation=\"horizontal\" solution=\"LA\"/>\n" +
+      "  <word idx=\"31\" definition=\"NÃ©gation\" orientation=\"vertical\" solution=\"NI\"/>\n" +
+      "  <word idx=\"39\" definition=\"Non reconnues\" orientation=\"horizontal\" solution=\"NIEES\"/>\n" +
+      "  <word idx=\"36\" definition=\"Habitants d'une Ã®le\" orientation=\"horizontal-under\" solution=\"HAITIENS\"/>\n" +
+      "  <word idx=\"39\" definition=\"RÃ¨gle de conduite\" orientation=\"vertical\" solution=\"TE\"/>\n" +
+      "  <word idx=\"53\" definition=\"\" orientation=\"none\" solution=\"\"/>\n" +
+      "  <word idx=\"54\" definition=\"Baie Japonaise\" orientation=\"horizontal\" solution=\"ISE\"/>\n" +
+      "  <word idx=\"58\" definition=\"Soldat allemand\" orientation=\"horizontal\" solution=\"SS\"/>\n" +
+      "  <word idx=\"61\" definition=\"\" orientation=\"none\" solution=\"\"/>\n" +
+      "  <word idx=\"62\" definition=\"\" orientation=\"none\" solution=\"\"/>\n" +
+      "</grid>";
 
-  return (
-    <Player grid={grid} />
-  );
+  let grid = new Grid();
+  //grid.initializeFromJSON(gridJSONString);
+  grid.initializeFromXML(gridXMLString);
+
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const gridId = urlParams.get("id");
+
+    if(gridId){
+      return (
+          <Player gridId={gridId} />
+      );
+    }else{
+      return (
+          <Player grid={grid} />
+      );
+    }
 }
 
 export default App;

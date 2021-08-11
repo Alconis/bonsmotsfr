@@ -1,6 +1,7 @@
 import {Component} from "react";
 import "./Player.css";
 import Square from "./Square";
+import Grid from "../models/Grid";
 
 class Player extends Component {
     constructor(props) {
@@ -9,7 +10,7 @@ class Player extends Component {
         /**
          * @type {Grid}
          */
-        this.grid = props.grid;
+        this.grid = null;
 
         this.typingDirection = 'right';
 
@@ -17,12 +18,42 @@ class Player extends Component {
             squareSize: props.squareSize ?? 80,
             selectedIndex : props.selectedIndex ?? 0,
             gridFull: false,
-            gridValid: false,
-
-            rows: this.grid.rows,
-            cols: this.grid.cols,
-            squares: this.grid.squares ?? []
+            gridValid: false
         };
+
+        if(props.grid){
+            this.grid = props.grid;
+            this.state = {
+                ...this.state,
+                rows: this.grid.rows,
+                cols: this.grid.cols,
+                squares: this.grid.squares
+            }
+        }
+
+        if(props.gridId){
+            this.loadGrid(props.gridId);
+        }
+    }
+
+    loadGrid = (gridId) => {
+        const apiURL = 'https://bonsmots.fr/services/grid.php';
+        fetch(apiURL + '?action=get&id=' + gridId)
+            .then((response) => {
+                return response.text();
+            })
+            .then(gridJSONString => {
+                this.grid = new Grid();
+                this.grid.initializeFromXML(atob(gridJSONString));
+                this.setState({
+                    rows: this.grid.rows,
+                    cols: this.grid.cols,
+                    squares: this.grid.squares
+                });
+            })
+            .catch((error) => {
+                console.error('Error: ' + error);
+            })
     }
 
     onSquareClick = (idx, event) => {

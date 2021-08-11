@@ -40,7 +40,10 @@ class Grid {
     }
 
     initializeFromJSON = (json) => {
-        let obj = JSON.parse(json);
+        let obj=json;
+        if (typeof json === "string"){
+            obj=JSON.parse(json);
+        }
 
         this.initializeBlankGrid(obj.rowCount, obj.colCount);
         obj.definitions.forEach((definition, index) => {
@@ -82,6 +85,44 @@ class Grid {
         });
 
         return true;
+    }
+
+    initializeFromXML = (xmlString) => {
+        let gridJSON = {
+            rowCount : 0,
+            colCount : 0,
+            definitions: []
+        };
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(xmlString, 'application/xml');
+
+        console.log(doc);
+
+        const rootNode = doc.getElementsByTagName('grid').item(0);
+        const rowCount = rootNode.getAttribute("rowCount");
+        const colCount = rootNode.getAttribute("colCount");
+
+        gridJSON.rowCount = parseInt(rowCount);
+        gridJSON.colCount = parseInt(colCount);
+
+        const words = rootNode.getElementsByTagName('word');
+        for (let i = 0; i < words.length; i++){
+            const word = words.item(i);
+            const idx = word.getAttribute('idx');
+            const definition = word.getAttribute('definition');
+            const orientation = word.getAttribute('orientation');
+            const solution = word.getAttribute('solution');
+
+            gridJSON.definitions.push({
+                idx : parseInt(idx),
+                definition: definition,
+                orientation: orientation,
+                solution: solution
+            });
+        }
+
+        this.initializeFromJSON(gridJSON);
     }
 
     getHorizontalDefinitions = () => {

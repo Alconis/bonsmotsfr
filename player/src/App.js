@@ -1,5 +1,4 @@
 import Player from "./components/Player";
-import Grid from "./models/Grid";
 
 function App() {
   const queryString = window.location.search;

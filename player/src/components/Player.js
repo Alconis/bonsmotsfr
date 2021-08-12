@@ -2,6 +2,7 @@ import {Component} from "react";
 import "./Player.css";
 import Square from "./Square";
 import Grid from "../models/Grid";
+import Keyboard from "./Keyboard";
 
 class Player extends Component {
     constructor(props) {
@@ -16,7 +17,9 @@ class Player extends Component {
             selectedIndex : props.selectedIndex ?? 0,
             typingDirection: 'right',
             gridFull: false,
-            gridValid: false
+            gridValid: false,
+
+            showKeyboard: this.isTouchDevice()
         };
 
         if(props.grid){
@@ -32,6 +35,12 @@ class Player extends Component {
         if(props.gridId){
             this.loadGrid(props.gridId);
         }
+    }
+
+    isTouchDevice = () => {
+        return (('ontouchstart' in window) ||
+            (navigator.maxTouchPoints > 0) ||
+            (navigator.msMaxTouchPoints > 0));
     }
 
     loadGrid = (gridId) => {
@@ -71,12 +80,13 @@ class Player extends Component {
 
         if (square.type === 'letter' && keyCode > 64 && keyCode < 91){
             const strCaps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            square.letter = strCaps.charAt(keyCode - 65);
+            const letter = strCaps.charAt(keyCode - 65);
+            this.changeSquareLetter(letter, square);
             this.checkGrid();
             this.selectNextSquare();
         }else if(keyCode === 32 /* space */ || keyCode === 46 /* delete */ || keyCode === 8 /* backspace */){
             if(square.type === 'letter') {
-                square.letter = "";
+                this.changeSquareLetter("", square);
                 this.checkGrid();
             }
             event.preventDefault();
@@ -95,6 +105,25 @@ class Player extends Component {
         }else if(keyCode === 17 /* ctrl */) {
             this.changeTypingDirection();
             event.preventDefault();
+        }
+    }
+
+    onKeyboardKey = (key) => {
+        let letter = key;
+        if(key === 'delete'){
+            letter = "";
+        }
+        this.changeSquareLetter(letter);
+        this.checkGrid();
+        this.selectNextSquare();
+    }
+
+    changeSquareLetter = (letter, square) => {
+        if(undefined === square){
+            square = this.state.squares[this.state.selectedIndex];
+        }
+        if(square.type === 'letter' && ((-1 !== "ABCDFEGHIJKLMNOPQRSTUVWXYZ".indexOf(letter)) || (letter === ""))){
+            square.letter = letter;
         }
     }
 
@@ -151,7 +180,7 @@ class Player extends Component {
         this.setState({selectedIndex : i});
     }
 
-    render() {
+    renderGrid = () => {
         let gridRows = [];
         let gridCursor = 0;
         for (let row = 0; row < this.state.rows; row++){
@@ -173,12 +202,16 @@ class Player extends Component {
                 <div className="gridRow" key={row}>{rowItems}</div>
             ));
         }
+        return gridRows;
+    }
 
+    render() {
         return (
             <div className="player">
                 <div className="grid" tabIndex="-1" onKeyDown={this.onGridKeyDown}>
-                    {gridRows}
+                    {this.renderGrid()}
                 </div>
+                <Keyboard visible={this.state.showKeyboard} onKey={this.onKeyboardKey}/>
             </div>
         );
     }

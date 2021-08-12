@@ -1,0 +1,31 @@
+.keyboard {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 1rem;
+  z-index: 2;
+  background-color: #dfe9ef;
+  border-top: 1px solid #b5d1e3;
+}
+.keyboard .keys {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.keyboard .keys .key {
+  border-radius: 0.5rem;
+  margin: 0 1rem 1rem 0;
+  background-color: #85b7d7;
+  color: #065285;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.5rem;
+  font-weight: bolder;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+/*# sourceMappingURL=Keyboard.css.map */

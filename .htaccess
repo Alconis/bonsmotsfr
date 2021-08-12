@@ -16,14 +16,10 @@
 # </IfModule>
 
 
-# hacks.mozilla.org/2009/07/cross-site-xmlhttprequest-with-cors/
-# Disabled. Uncomment to serve cross-domain ajax requests
-#<IfModule mod_headers.c>
-#  Header set Access-Control-Allow-Origin "*"
-#</IfModule>
 
-
-
+<IfModule mod_headers.c>
+  Header set Access-Control-Allow-Origin "*"
+</IfModule>
 
 # allow access from all domains for webfonts
 # alternatively you could only whitelist
@@ -34,7 +30,6 @@
     Header set Access-Control-Allow-Origin "*"
   </IfModule>
 </FilesMatch>
-
 
 # video
 AddType video/ogg  ogg ogv
@@ -194,7 +189,7 @@ mod_gzip_on Off
 # Le serveur doit suivre les liens symboliques :
 Options +FollowSymlinks
 
-# Activation du module de réécriture d'URL :
+# Activation du module de rï¿½ï¿½criture d'URL :
 RewriteEngine on
 
 # Rule: grille/4-titre-kon-sen-fout.html --> /index.php?page=grid&id=4 

@@ -97,8 +97,6 @@ class Grid {
         const parser = new DOMParser();
         const doc = parser.parseFromString(xmlString, 'application/xml');
 
-        console.log(doc);
-
         const rootNode = doc.getElementsByTagName('grid').item(0);
         const rowCount = rootNode.getAttribute("rowCount");
         const colCount = rootNode.getAttribute("colCount");

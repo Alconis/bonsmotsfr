@@ -14,9 +14,9 @@ class Square extends Component {
     render() {
         let sqContent;
         if(this.square.type === 'definition'){
-            sqContent = this.square.definitions.map((definition) => {
+            sqContent = this.square.definitions.map((definition, index) => {
                 return (
-                    <div className={"def " + definition.orientation}>
+                    <div className={"def " + definition.orientation} key={index}>
                         {definition.text}
                     </div>
                 )

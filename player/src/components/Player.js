@@ -12,11 +12,9 @@ class Player extends Component {
          */
         this.grid = null;
 
-        this.typingDirection = 'right';
-
         this.state = {
-            squareSize: props.squareSize ?? 80,
             selectedIndex : props.selectedIndex ?? 0,
+            typingDirection: 'right',
             gridFull: false,
             gridValid: false
         };
@@ -57,6 +55,9 @@ class Player extends Component {
     }
 
     onSquareClick = (idx, event) => {
+        if(this.state.selectedIndex === idx){
+            this.changeTypingDirection();
+        }
         this.setSelectedIndex(idx);
     }
 
@@ -92,21 +93,22 @@ class Player extends Component {
             this.setSelectedIndex(Math.min(this.state.selectedIndex+1, this.state.cols*this.state.rows-1));
             event.preventDefault();
         }else if(keyCode === 17 /* ctrl */) {
-            if(this.state.typingDirection === 'right') {
-                this.setState({typingDirection : 'down'});
-            }else{
-                this.setState({typingDirection : 'right'});
-            }
+            this.changeTypingDirection();
             event.preventDefault();
         }
     }
 
+    changeTypingDirection = (direction) => {
+        let newDir = direction ?? (this.state.typingDirection === 'right' ? 'down' : 'right');
+        this.setState({typingDirection: newDir});
+    }
+
     selectNextSquare = () => {
-        const tdir = this.typingDirection,
+        const tdir = this.state.typingDirection,
             idx = this.state.selectedIndex,
             squares = this.state.squares,
-            cols = this.cols,
-            max = this.rows * cols;
+            cols = this.state.cols,
+            max = this.state.rows * cols;
         let i = 0;
 
         if(tdir === 'right') {
@@ -158,7 +160,7 @@ class Player extends Component {
             for (let col = 0; col < this.state.cols; col++){
                 const sq = this.state.squares[gridCursor];
 
-                let sqClasses = (this.state.selectedIndex === sq.idx) ? 'selected' : '';
+                let sqClasses = (this.state.selectedIndex === sq.idx) ? 'selected direction-' +  this.state.typingDirection : '';
 
                 rowItems.push((
                     <Square className={sqClasses} key={sq.idx} square={sq} onClick={this.onSquareClick}/>
@@ -168,7 +170,7 @@ class Player extends Component {
             }
 
             gridRows.push((
-                <div className="gridRow">{rowItems}</div>
+                <div className="gridRow" key={row}>{rowItems}</div>
             ));
         }
 

@@ -19,6 +19,7 @@
     "copy" : "rm -rf ../includes/react-player/* && cp -r build/* ../includes/react-player/",
     "build & copy": "npm run build && npm run copy"
   },
+  "homepage": "https://bonsmots.fr/includes/react-player/",
   "eslintConfig": {
     "extends": [
       "react-app",

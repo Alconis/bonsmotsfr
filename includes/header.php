@@ -22,7 +22,7 @@
   <?php if($is_grid){ ?>
         <link rel="manifest" href="/includes/react-player/manifest.json"/>
         <link rel="stylesheet" href="/includes/react-player/styles.css"/>
-        <link href="/includes/react-player/static/css/main.bc3b2b68.chunk.css" rel="stylesheet">
+        <link href="/includes/react-player/static/css/main.de5db58b.chunk.css" rel="stylesheet">
   <?php } ?>
 </head>
 

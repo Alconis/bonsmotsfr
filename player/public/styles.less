@@ -2,9 +2,30 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100vh;
+  width: 100vw;
+}
+
 body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
   font-size: 16px;
 }
 
-#root {
+#player-app {
+  height: 100%;
+  width: 100%;
+
+  .player {
+    height: 100%;
+    width: 100%;
+
+    .grid {
+      overflow: scroll;
+    }
+  }
 }
+
